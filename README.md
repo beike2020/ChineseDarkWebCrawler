@@ -2,19 +2,18 @@
 
 ## 运行环境
 ```
-# wget https://github.com/mozilla/geckodriver/releases/download/v0.31.0/geckodriver-v0.31.0-linux64.tar.gz
-# tar xzf geckodriver-v0.31.0-linux64.tar.gz
-# mv geckodriver /usr/local/bin/
+root# wget https://github.com/mozilla/geckodriver/releases/download/v0.31.0/geckodriver-v0.31.0-linux64.tar.gz
+root# tar xzf geckodriver-v0.31.0-linux64.tar.gz
+root# mv geckodriver /usr/local/bin/
 ```
 
 ## 运行方式
 没有什么特殊的库，缺啥直接pip安装就行
-# cd /ChineseDarkWebCrawler/DrakWeb/Crawler
-# pipenv install
-# pipenv shell
+root# cd /ChineseDarkWebCrawler/DrakWeb/Crawler
+root# pipenv install
+root# pipenv shell
 (ChineseDarkWebCrawler-AEMMb0hY) # pip install django
 (ChineseDarkWebCrawler-AEMMb0hY) # pipenv run python manage.py runserver 0.0.0.0:8080 &
-
 
 #### 页面爬取
 ```
