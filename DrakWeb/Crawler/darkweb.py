@@ -4,13 +4,14 @@
 from selenium import webdriver
 from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
 import sqlite3, sys, logging, time, os, re, urllib
-import win32api, win32clipboard, win32con
+#import win32api, win32clipboard, win32con
 from ctypes import *
 import shutil
 import hashlib
+import importlib
 
-reload(sys)
-sys.setdefaultencoding('utf-8')
+importlib.reload(sys)
+#sys.setdefaultencoding('utf-8')
 
 def get_image(browser):
     elements = browser.find_elements_by_xpath("//dt[@class='attach-image']/img")
@@ -42,8 +43,8 @@ def get_content_insert(topic , crawl_time, browser, catagroy):
             try:
                 conn = sqlite3.connect('C:\\Users\\Administrator\\Desktop\\darkweb\\db.sqlite3')
                 cursor = conn.cursor()
-            except Exception,e:
-                print e
+            except Exception as e:
+                print(e)
                 pass
             browser.get(top)
             topic_post_time = browser.find_element_by_xpath("//table[@class='v_table_1']/tbody/tr[3]/td[6]").text
@@ -67,14 +68,14 @@ def get_content_insert(topic , crawl_time, browser, catagroy):
         #计算行数
         line_num = len(cursor.execute('''SELECT * FROM '''+table_name).fetchall())
         #测试是否重复
-        print content['topic_id']
+        print(content['topic_id'])
         sql1 = '''SELECT ID FROM %s where Topic_id="%s"''' % (table_name, content['topic_id'])
-        print sql1
+        print(sql1)
         if len(cursor.execute(sql1).fetchall())>0:
             try:
                 cursor.execute('''UPDATE %s SET Deal_divide_sales="%s" , Topic_price_dollar="%s" , Topic_sales_status="%s" , Crwal_time="%s" WHERE Topic_id="%s"''' % (table_name, str(content['topic_deal_nums']+'/'+content['topic_sales_nums']) ,  content['topic_price_dollar'] , content['topic_sales_status'] , str(crawl_time) , content['topic_id']))
-            except Exception,e:
-                print e
+            except Exception as e:
+                print(e)
                 pass
         else:
             try:
@@ -90,13 +91,13 @@ def get_content_insert(topic , crawl_time, browser, catagroy):
                 html = re.sub(r'\&amp\;sid\=[0-9a-zA-Z]{32}', '.png', html)
                 # 以帖子id来做唯一值
                 filename = "../../static/"+str(content['topic_id'])+'.html'
-                print "-------------"+filename
+                print("-------------"+filename)
                 file = open(filename, 'w')
                 file.write(html)
                 file.close()
-                print 'insert test'
-            except Exception,e:
-                print e
+                print('insert test')
+            except Exception as e:
+                print(e)
                 pass
         cursor.close()
         conn.commit()
@@ -106,10 +107,12 @@ def DarkCrawler(num, catagroy, pages):
     try:
         fireFoxOptions = webdriver.FirefoxOptions()
         #headless模式无弹窗
-        fireFoxOptions.set_headless()
+        #fireFoxOptions.set_headless()
+        fireFoxOptions.add_argument('--headless')
         #设置tor为firefox源
         binary = FirefoxBinary('C:\\Tor\\Tor Browser\\Browser\\firefox.exe')
-        browser = webdriver.Firefox(firefox_options=fireFoxOptions , firefox_binary=binary)
+        #browser = webdriver.Firefox(firefox_options=fireFoxOptions , firefox_binary=binary)
+        browser = webdriver.Firefox(options=fireFoxOptions , firefox_binary=binary)
         # 模拟按键进行登录浏览
         browser.get('http://bmp3qqimv55xdznb.onion')
         time.sleep(10)
@@ -125,14 +128,14 @@ def DarkCrawler(num, catagroy, pages):
                 break
         index_url = browser.current_url
         topic = get_links(index_url , pages, browser)
-        print 'test3'
+        print('test3')
         crawl_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
         get_content_insert(topic , crawl_time, browser, catagroy)
         #关闭firefox、cursor、数据库连接，提交事务
         browser.close()
         browser.quit()
-    except Exception,e:
-        print e
+    except Exception as e:
+        print(e)
         pass
 
 if __name__ == '__main__':
@@ -145,7 +148,7 @@ if __name__ == '__main__':
             id = list[catagroy]
             DarkCrawler(id, catagroy, pages)
         else:
-            print "your keyword must be in 'sex','data','service','material','virtual_source','teach','cvv','other','basic','private'"
+            print("your keyword must be in 'sex','data','service','material','virtual_source','teach','cvv','other','basic','private'")
     else:
-        print "Example: python darkweb.py keyword 1"
-        print "your keyword must be in 'sex','data','service','material','virtual_source','teach','cvv','other','basic','private'"
+        print("Example: python darkweb.py keyword 1")
+        print("your keyword must be in 'sex','data','service','material','virtual_source','teach','cvv','other','basic','private'")

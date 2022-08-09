@@ -22,7 +22,7 @@ def regist(request):
     if request.method == 'GET':
         return render(request, 'pages/regist.html')
     if request.method == 'POST':
-        print request.method
+        print(request.method)
         # regist
         name = request.POST.get('username')
         password = request.POST.get('password')

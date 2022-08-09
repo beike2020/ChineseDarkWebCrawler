@@ -83,25 +83,25 @@ def DarkCrawler():
                 pass
             else:
                 url = "http://bmp3qqimv55xdznb.onion/download/file.php?id=%s&sid=%s" % (id, sid)
-                print url
+                print(url)
                 try:
                     get_image(browser, url, id, path)
-                except Exception,e:
-                    print e
+                except Exception as e:
+                    print(e)
                     pass
         #关闭firefox、cursor、数据库连接，提交事务
         browser.close()
-    except Exception,e:
-        print e
+    except Exception as e:
+        print(e)
         pass
 
 
 if __name__ == '__main__':
 	while 1:
 		try:
-			print time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+			print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
 			DarkCrawler()
 			time.sleep(1000)
-		except Exception, e:
-			print e
+		except Exception as e:
+			print(e)
 			pass
