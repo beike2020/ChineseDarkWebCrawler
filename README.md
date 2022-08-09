@@ -2,20 +2,28 @@
 
 ## 运行环境
 ```
- python2.7
- selenium
- tor浏览器
- geckodriver.exe
+# wget https://github.com/mozilla/geckodriver/releases/download/v0.31.0/geckodriver-v0.31.0-linux64.tar.gz
+# tar xzf geckodriver-v0.31.0-linux64.tar.gz
+# mv geckodriver /usr/local/bin/
 ```
 
 ## 运行方式
-* 没有什么特殊的库，缺啥直接pip安装就行
+没有什么特殊的库，缺啥直接pip安装就行
+# cd /ChineseDarkWebCrawler/DrakWeb/Crawler
+# pipenv install
+# pipenv shell
+(ChineseDarkWebCrawler-AEMMb0hY) # pip install django
+(ChineseDarkWebCrawler-AEMMb0hY) # pipenv run python manage.py runserver 0.0.0.0:8080 &
+
+
 #### 页面爬取
 ```
 darkweb.py 页面爬取保存及图片id保存脚本
-示例: python darkweb.py keyword pagenum
+python darkweb.py keyword pagenum
 keyword必须是其中一个：'sex','data','service','material','virtual_source','teach','cvv','other','basic','private'
 pagenum是页数，随意
+(ChineseDarkWebCrawler-AEMMb0hY) # python darkweb.py private 1
+your keyword must be in 'sex','data','service','material','virtual_source','teach','cvv','other','basic','private'
 ```
 #### 图片爬取
 ```
